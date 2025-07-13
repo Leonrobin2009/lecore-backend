@@ -6,12 +6,22 @@ import io
 
 app = Flask(__name__)
 
-from huggingface_hub import login
+from transformers import BlipProcessor, BlipForConditionalGeneration
 
-login("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")
+# Use your token here
+HF_TOKEN = "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"
 
-processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base",use_auth_token=True)
-model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captionong-bace", use_auth_token=True)
+processor = BlipProcessor.from_pretrained(
+    "Salesforce/blip-image-captioning-base",
+    use_auth_token=HF_TOKEN
+)
+
+model = BlipForConditionalGeneration.from_pretrained(
+    "Salesforce/blip-image-captioning-base",
+    use_auth_token=HF_TOKEN
+)
+
+
 
 def str(ex):
     pass
