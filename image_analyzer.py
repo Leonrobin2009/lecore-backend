@@ -12,15 +12,8 @@ import os
 
 HF_TOKEN = os.environ.get("HF_TOKEN")
 
-processor = BlipProcessor.from_pretrained(
-    "Salesforce/blip-image-captioning-base",
-    use_auth_token=HF_TOKEN
-)
-
-model = BlipForConditionalGeneration.from_pretrained(
-    "Salesforce/blip-image-captioning-base",
-    use_auth_token=HF_TOKEN
-)
+processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base", token=HF_TOKEN)
+model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base", token=HF_TOKEN)
 
 
 
