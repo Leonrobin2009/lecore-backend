@@ -8,8 +8,9 @@ app = Flask(__name__)
 
 from transformers import BlipProcessor, BlipForConditionalGeneration
 
-# Use your token here
-HF_TOKEN = "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"
+import os
+
+HF_TOKEN = os.environ.get("HF_TOKEN")
 
 processor = BlipProcessor.from_pretrained(
     "Salesforce/blip-image-captioning-base",
@@ -20,6 +21,7 @@ model = BlipForConditionalGeneration.from_pretrained(
     "Salesforce/blip-image-captioning-base",
     use_auth_token=HF_TOKEN
 )
+
 
 
 
