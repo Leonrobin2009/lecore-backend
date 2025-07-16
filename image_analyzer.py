@@ -3,53 +3,45 @@ from PIL import Image, UnidentifiedImageError
 import torch
 from transformers import BlipProcessor, BlipForConditionalGeneration
 import io
+import os
 
 app = Flask(__name__)
 
-from transformers import BlipProcessor, BlipForConditionalGeneration
-
-import os
-
+# Get Hugging Face token securely (set it in Render or .env)
 HF_TOKEN = os.environ.get("HF_TOKEN")
 
+# Load the BLIP model and processor
 processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base", token=HF_TOKEN)
 model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base", token=HF_TOKEN)
 
 
-
-
-def str(ex):
-    pass
-
-
-class BaseException:
-    pass
-
-
-class Exception:
-    pass
-
-
 @app.route("/analyze", methods=["POST"])
 def analyze_image():
+    if "image" not in request.files:
+        return jsonify({"result": "❌ No image uploaded"}), 400
+
+    image_file = request.files["image"]
+    prompt = request.form.get("prompt", "").strip()
+
     try:
-        if "image" not in request.files:
-            return jsonify({"result": "No image uploaded"}), 400
-
-        image_file = request.files["image"]
         image = Image.open(image_file.stream).convert("RGB")
+    except UnidentifiedImageError:
+        return jsonify({"result": "❌ Failed to read image"}), 400
 
-        # Optional: Resize large images to 1024x1024 max
-        max_size = (1024, 1024)
-        image.thumbnail(max_size)
+    try:
+        # Use prompt if available
+        if prompt:
+            inputs = processor(images=image, text=prompt, return_tensors="pt")
+        else:
+            inputs = processor(images=image, return_tensors="pt")
 
-        inputs = processor(images=image, return_tensors="pt")
-        out = model.generate(**inputs, max_length=50)
+        out = model.generate(**inputs, max_length=60)
         caption = processor.decode(out[0], skip_special_tokens=True)
 
-        return jsonify({"result": f"🧠 I see: {caption}"})
+        return jsonify({"result": f"🧠 I see: {caption}"}), 200
+
     except Exception as e:
-        return jsonify({"result": f"⚠️ Failed to process image: {str(e)}"}), 500
+        return jsonify({"result": f"❌ Server error: {str(e)}"}), 500
 
 
 if __name__ == "__main__":
