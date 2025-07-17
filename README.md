@@ -53,4 +53,15 @@ lecore-backend/
 
 ---
 
+👨‍💻 Developer
+LeCore is proudly developed by:
 
+👨‍💻 LeoN (@Leonrobin2009)
+🎓 Young developer passionate about AI and Android
+🌍 Based in Kerala, India 🇮🇳
+📬 Contact: leonrobin2009@gmail.com
+
+📜 License
+This project is licensed under the MIT License.
+
+You are free to use, modify, and distribute this app with proper credit to the original developer._____
