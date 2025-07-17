@@ -60,8 +60,10 @@ LeCore is proudly developed by:
 🎓 Young developer passionate about AI and Android
 🌍 Based in Kerala, India 🇮🇳
 📬 Contact: leonrobin2009@gmail.com
+---
 
-📜 License
-This project is licensed under the MIT License.
+## 📄 License
+
+This project is licensed under the [MIT License](./LICENSE) © 2025 **Leon Robin**.
 
 You are free to use, modify, and distribute this app with proper credit to the original developer._____
